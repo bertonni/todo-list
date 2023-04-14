@@ -31,12 +31,13 @@ export const TodoCard = ({ todo }: TodoCardProps) => {
     return `${days[dayOfWeek]}, ${dayOfMonth} ${months[month]} ${year}`;
   }
 
-  const dateColorClass =
-    getDifferenceDays(deadline) < 0
-      ? "text-red-500"
-      : getDifferenceDays(deadline) < 6
-      ? "text-amber-500"
-      : "text-green-500";
+  const dateColorClass = 'text-gray-400'
+  // const dateColorClass =
+  //   getDifferenceDays(deadline) < 0
+  //     ? "text-red-500"
+  //     : getDifferenceDays(deadline) < 6
+  //     ? "text-amber-500"
+  //     : "text-green-500";
 
   return (
     <div

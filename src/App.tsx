@@ -16,7 +16,7 @@ function App() {
       <AnimatePresence mode="wait">
         {showAddTaskModal ? <AddTaskModal close={() => setShowAddTaskModal(false)} /> : null}
       </AnimatePresence>
-      <div className="px-6 flex flex-col gap-2 pb-20">
+      <div className="px-6 sm:px-10 lg:px-14 flex flex-col gap-2 pb-20">
         {activeItem === 1 ? <Todos /> : <Options />}
         <button
           className="rounded-full flex items-center gap-2 text-lg
