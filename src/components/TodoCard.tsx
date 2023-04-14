@@ -5,6 +5,9 @@ interface TodoCardProps {
   todo: Todo;
 }
 
+const months: string[] = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+const days: string[] = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+
 export const TodoCard = ({ todo }: TodoCardProps) => {
   const { title, description, deadline } = todo;
 
@@ -19,21 +22,30 @@ export const TodoCard = ({ todo }: TodoCardProps) => {
     return daysDiff;
   };
 
+  const formatDate = (date: Date) => {
+    const dayOfWeek = date.getDay() == 0 ? 6 : date.getDay() - 1;
+    const month = date.getMonth();
+    const dayOfMonth = date.getDate();
+    const year = date.getFullYear();
+
+    return `${days[dayOfWeek]}, ${dayOfMonth} ${months[month]} ${year}`;
+  }
+
   const dateColorClass =
     getDifferenceDays(deadline) < 0
-      ? "bg-red-500"
+      ? "text-red-500"
       : getDifferenceDays(deadline) < 6
-      ? "bg-amber-500"
-      : "bg-green-500";
+      ? "text-amber-500"
+      : "text-green-500";
 
   return (
     <div
-      className="flex flex-col justify-between text-gray-700 rounded-xl shadow
-      py-3 w-full sm:w-80 bg-white"
+      className="flex flex-col justify-between text-gray-700 rounded-xl shadow-md
+      pt-3 w-full bg-white"
     >
       {/* header */}
       <div className="h-10 flex justify-between items-center px-4 text-gray-500 mt-1 mb-3">
-        <span className="px-2 py-1 rounded-full bg-indigo-100 text-sm font-medium text-indigo-500">Category</span>
+        <span className="px-2 py-1 rounded-full bg-indigo-100 text-sm font-medium text-indigo-500">Categoria</span>
         <button className="p-1 rounded-full hover:bg-gray-50">
           <MoreHorizontal />
         </button>
@@ -46,10 +58,10 @@ export const TodoCard = ({ todo }: TodoCardProps) => {
       </div>
 
       {/* footer */}
-      <div className="flex border-t w-full justify-end py-4 px-3 text-gray-500">
+      <div className={`flex border-t w-full justify-end py-4 px-3 text-gray-500 ${dateColorClass}`}>
         <Calendar size={16} />
-        <span className={`text-xs rounded px-1`}>
-          {deadline.toLocaleDateString()}
+        <span className="text-xs rounded px-1">
+          {formatDate(deadline)}
         </span>
       </div>
 

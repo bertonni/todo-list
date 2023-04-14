@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { AnimatePresence } from 'framer-motion';
 import { Navbar } from "./components/Navbar";
-import { Todos } from "./Screens/Todos";
+import { Todos } from "./screens/Todos";
 import { Plus } from "react-feather";
-import { Options } from "./Screens/Options";
+import { Options } from "./screens/Options";
 import { AddTaskModal } from "./components/AddTaskModal";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
       <AnimatePresence mode="wait">
         {showAddTaskModal ? <AddTaskModal close={() => setShowAddTaskModal(false)} /> : null}
       </AnimatePresence>
-      <div className="px-6 mt-6 flex flex-col gap-2 pb-20">
+      <div className="px-6 flex flex-col gap-2 pb-20">
         {activeItem === 1 ? <Todos /> : <Options />}
         <button
           className="rounded-full flex items-center gap-2 text-lg

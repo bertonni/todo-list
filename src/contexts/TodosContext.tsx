@@ -17,29 +17,7 @@ interface TodosProviderProps {
   children: ReactNode;
 }
 
-const defaultTodos: Todo[] = [
-  {
-    title: "My first task",
-    description: "My first description",
-    deadline: new Date("2023-04-17"),
-    status: "To do",
-    createdAt: "14/04/2023",
-  },
-  {
-    title: "Create a task",
-    description: "Create your own task, for test purposes",
-    deadline: new Date("2023-04-20"),
-    status: "To do",
-    createdAt: "14/04/2023",
-  },
-  {
-    title: "Remove a task",
-    description: "Remove a task that you will not need to do anymore",
-    deadline: new Date("2023-04-16"),
-    status: "To do",
-    createdAt: "14/04/2023",
-  },
-];
+const defaultTodos: Todo[] = [];
 
 export const TodosContext = createContext({} as TodosContextDataProps);
 

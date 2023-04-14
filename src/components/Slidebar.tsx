@@ -38,13 +38,13 @@ export const Slidebar = ({ close, active, setActive }: SlidebarProps) => {
         </button>
         <NavButton
           isActive={active === 1}
-          title={"To-dos"}
+          title={"Tarefas"}
           icon={<List size={20} />}
           action={() => handleClick(1)}
         />
         <NavButton
           isActive={active === 2}
-          title={"Options"}
+          title={"Opções"}
           icon={<Settings size={20} />}
           action={() => handleClick(2)}
         />

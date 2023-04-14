@@ -33,13 +33,13 @@ export const Navbar = ({ active, setActive }: NavbarProps) => {
       <div className="sm:flex items-center hidden text-gray-600">
         <NavButton
           isActive={active === 1}
-          title={"To-dos"}
+          title={"Tarefas"}
           icon={<List size={20} />}
           action={() => setActive(1)}
         />
         <NavButton
           isActive={active === 2}
-          title={"Options"}
+          title={"Opções"}
           icon={<Settings size={20} />}
           action={() => setActive(2)}
         />
