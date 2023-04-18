@@ -90,7 +90,7 @@ export const TodoCard = ({ todo, variant }: TodoCardProps) => {
         />
         <AnimatePresence mode="wait">
           {showOptions ? (
-            <MoreOptions close={() => setShowOptions(false)} />
+            <MoreOptions id={todo.id} close={() => setShowOptions(false)} />
           ) : null}
         </AnimatePresence>
         {!showOptions ? (
