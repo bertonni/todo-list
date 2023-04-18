@@ -15,11 +15,15 @@ const variants: Variants = {
 };
 
 const schema = yup.object({
-  title: yup.string().required("Field required"),
+  title: yup.string().required("Campo obrigatório"),
   description: yup.string().nullable(),
   status: yup.string().oneOf(["Done", "To do", "Canceled"]).required(),
-  deadline: yup.date().typeError("Please, select a date").required(),
-  createdAt: yup.string().required()
+  deadline: yup.date().typeError("Por favor, informe uma data").required(),
+  category: yup
+    .string()
+    .oneOf(["Trabalho", "Escola", "Casa"], "Escolha uma categoria")
+    .required("Esolha uma categoria"),
+  createdAt: yup.string().required(),
 });
 type FormData = yup.InferType<typeof schema>;
 
@@ -33,33 +37,33 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
     resolver: yupResolver(schema),
     defaultValues: {
       status: "To do",
-      createdAt: new Date().toLocaleDateString()
-    }
+      createdAt: new Date().toLocaleDateString(),
+    },
   });
 
   const onSubmit = (data: FormData) => {
     addTodo(data);
     close();
-  }
+  };
 
   return (
     <div
       className="bg-black/40 fixed h-screen w-full inset-0 px-4 flex
-      justify-center items-center z-10"
+        justify-center items-center z-20"
     >
       <motion.div
         variants={variants}
         initial="hidden"
         animate="visible"
         exit="hidden"
-        className="bg-white rounded z-20 w-full max-w-sm"
+        className="bg-white rounded w-full max-w-sm"
       >
         <div
           className="flex items-center justify-between text-gray-600
-          border-b border-gray-200 rounded-t h-12 bg-gray-100 font-medium
+          border-b border-gray-200 rounded-t h-12 bg-indigo-50 font-medium
           text-lg pl-5"
         >
-          <h1>Create Task</h1>
+          <h1>Criar Tarefa</h1>
           <button className="p-2 rounded-full" onClick={close}>
             <X size={28} />
           </button>
@@ -71,18 +75,23 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
           >
             <div className="flex flex-col">
               <label htmlFor="title" className="font-medium text-gray-600">
-                Title
+                Título
               </label>
               <input
                 id="title"
                 className="h-10 rounded border px-3 focus:outline-1 text-gray-500"
                 {...register("title")}
               />
-              <p className="h-1 text-xs text-pink-500 text-right">{errors.title?.message}</p>
+              <p className="h-1 text-xs text-pink-500 text-right">
+                {errors.title?.message}
+              </p>
             </div>
             <div className="flex flex-col">
-              <label htmlFor="description" className="font-medium text-gray-600">
-                Description
+              <label
+                htmlFor="description"
+                className="font-medium text-gray-600"
+              >
+                Descrição
               </label>
               <textarea
                 id="description"
@@ -90,11 +99,31 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
                 className="rounded border px-3 py-2 focus:outline-1 text-gray-500 resize-none"
                 {...register("description")}
               />
-              <p className="h-1 text-xs text-pink-500 text-right">{errors.description?.message}</p>
+              <p className="h-1 text-xs text-pink-500 text-right">
+                {errors.description?.message}
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="category" className="font-medium text-gray-600">
+                Categoria
+              </label>
+              <select
+                id="category"
+                {...register("category")}
+                className="border rounded px-3 h-10 text-gray-500"
+              >
+                <option value="default">Selecione</option>
+                <option value="Casa">Casa</option>
+                <option value="Trabalho">Trabalho</option>
+                <option value="Escola">Escola</option>
+              </select>
+              <p className="h-1 text-xs text-pink-500 text-right">
+                {errors.category?.message}
+              </p>
             </div>
             <div className="flex flex-col">
               <label htmlFor="deadline" className="font-medium text-gray-600">
-                Deadline
+                Prazo
               </label>
               <input
                 id="deadline"
@@ -102,7 +131,9 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
                 className="h-10 rounded border px-3 focus:outline-1 text-gray-500"
                 {...register("deadline")}
               />
-              <p className="h-1 text-xs text-pink-500 text-right">{errors.deadline?.message}</p>
+              <p className="h-1 text-xs text-pink-500 text-right">
+                {errors.deadline?.message}
+              </p>
             </div>
             <div className="flex items-center justify-end gap-2 mt-4">
               <button
@@ -111,14 +142,14 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
                 hover:bg-gray-50"
                 onClick={close}
               >
-                Close
+                Fechar
               </button>
               <button
                 type="submit"
-                className="rounded-full px-6 py-2 font-medium bg-sky-600
+                className="rounded-full px-6 py-2 font-medium bg-indigo-500
                 text-white hover:brightness-105"
               >
-                Save
+                Salvar
               </button>
             </div>
           </form>

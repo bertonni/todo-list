@@ -20,11 +20,11 @@ function App() {
         {activeItem === 1 ? <Todos /> : <Options />}
         <button
           className="rounded-full flex items-center gap-2 text-lg
-          bg-sky-600 text-white py-2 pl-6 pr-4 w-max absolute
-          right-6 bottom-10 shadow-md hover:brightness-105"
+            bg-indigo-500 text-white py-2 pl-6 pr-4 w-max absolute
+            right-6 bottom-10 shadow-md hover:brightness-105"
           onClick={() => setShowAddTaskModal(true)}
         >
-          Create Task
+          Criar Tarefa
           <Plus size={24} />
         </button>
       </div>

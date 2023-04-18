@@ -2,8 +2,29 @@ import { useEffect, useState } from "react";
 import { TabNavigation } from "../components/TabNavigation";
 import { TodoCard } from "../components/TodoCard";
 import { useTodos } from "../contexts/TodosContext";
+import { motion, Variants } from "framer-motion";
 
 const statuses: string[] = ["To do", "Done", "Canceled"];
+
+const container: Variants = {
+  hidden: { opacity: 1, scale: 1 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const item: Variants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
 
 export const Todos = () => {
   const { todos } = useTodos();
@@ -38,19 +59,22 @@ export const Todos = () => {
 
       <TabNavigation active={currentTab} setActive={setCurrentTab} />
 
-      <div
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="visible"
         className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4
-        2xl:grid-cols-5 pb-2 flex-wrap gap-3 flex-1 max-h-[calc(100vh-15rem)]
-        overflow-auto"
+          2xl:grid-cols-5 pb-2 flex-wrap gap-3 flex-1 max-h-[calc(100vh-15rem)]
+          overflow-auto"
       >
-        {todos.length > 0 ? (
+        {todos.length > 0 && todos.filter((todo) => todo.status === statuses[currentTab - 1]).length > 0 ? (
           todos
             .filter((todo) => todo.status === statuses[currentTab - 1])
-            .map((todo, index) => <TodoCard todo={todo} key={index} />)
+            .map((todo, index) => <TodoCard todo={todo} key={index} variant={item} />)
         ) : message.length !== 0 ? (
           <p className="text-gray-500">{message}</p>
         ) : null}
-      </div>
+      </motion.div>
     </div>
   );
 };

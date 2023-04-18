@@ -32,7 +32,7 @@ export const TodosContextProvider = ({ children }: TodosProviderProps) => {
   const [todos, setTodos] = useState<Todo[]>(defaultTodos);
 
   useEffect(() => {
-    todos.sort((a, b) => Number(a.deadline) - Number(b.deadline));
+    // todos.sort((a, b) => Number(a.deadline) - Number(b.deadline));
     setIsLoading(false);
   }, []);
 
