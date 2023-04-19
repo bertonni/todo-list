@@ -1,15 +1,12 @@
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { Todo } from "../@types/types";
 import {
-  Edit2,
-  Trash2,
-  CheckCircle,
   Calendar,
   MoreHorizontal,
 } from "react-feather";
 import { Badge } from "./Badge";
 import { MoreOptions } from "./MoreOptions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface TodoCardProps {
   todo: Todo;
@@ -33,13 +30,13 @@ const months: string[] = [
 const days: string[] = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 const colors: string[] = [
   "primary",
+  "info",
   "secondary",
   "success",
   "warning",
   "error",
-  "info",
 ];
-const categories: string[] = ["Trabalho", "Escola", "Casa"];
+const categories: string[] = ["Trabalho", "Estudos", "Casa"];
 
 const buttonVariant: Variants = {
   hidden: { opacity: 0, transition: { delay: 0.1 } },
@@ -72,20 +69,20 @@ export const TodoCard = ({ todo, variant }: TodoCardProps) => {
   };
 
   const dateColorClass: string = "text-gray-400";
-  const badgeColor: any = colors[categories.indexOf(category)];
+  const badgeColor: any = colors[categories.indexOf(category)] ?? "primary";
 
   return (
     <motion.div
       variants={variant}
-      className="flex flex-col justify-between text-gray-700 rounded-xl shadow-md
-      pt-3 w-full bg-white relative overflow-hidden"
+      className="flex flex-col text-gray-700 rounded-xl shadow-md
+        pt-3 w-full bg-white relative overflow-hidden"
       onClick={() => setShowOptions(false)}
     >
       {/* header */}
       <div className="h-10 flex justify-between items-center px-4 text-gray-500 mb-3">
         <Badge
           size="sm"
-          color={badgeColor.length > 0 ? badgeColor : "primary"}
+          color={badgeColor}
           text={category}
         />
         <AnimatePresence mode="wait">
@@ -112,7 +109,7 @@ export const TodoCard = ({ todo, variant }: TodoCardProps) => {
       </div>
 
       {/* body */}
-      <div className="flex flex-col px-4 pb-4">
+      <div className="flex flex-col flex-1 px-4 pb-4">
         <h2 className="text-xl font-medium">{title}</h2>
         <p className="text-gray-400">{description}</p>
       </div>
@@ -123,27 +120,6 @@ export const TodoCard = ({ todo, variant }: TodoCardProps) => {
       >
         <Calendar size={16} />
         <span className="text-xs rounded px-1">{formatDate(deadline)}</span>
-      </div>
-
-      <div className="flex-col sm:flex-row items-center justify-end hidden">
-        <button
-          className="p-2 rounded-full hover:bg-sky-50 transition-all
-          text-gray-400 hover:text-sky-400"
-        >
-          <Edit2 size={20} />
-        </button>
-        <button
-          className="p-2 rounded-full hover:bg-pink-50 transition-all
-          text-gray-400 hover:text-pink-400"
-        >
-          <Trash2 size={20} />
-        </button>
-        <button
-          className="p-2 rounded-full hover:bg-green-50 transition-all
-          text-gray-400 hover:text-green-400"
-        >
-          <CheckCircle size={20} />
-        </button>
       </div>
     </motion.div>
   );

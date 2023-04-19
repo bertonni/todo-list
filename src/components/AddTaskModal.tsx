@@ -15,15 +15,16 @@ const variants: Variants = {
 };
 
 const schema = yup.object({
+  id: yup.string().required(),
   title: yup.string().required("Campo obrigatório"),
-  description: yup.string().nullable(),
+  description: yup.string().max(125, "Insira, no máximo, 125 caracteres").nullable(),
   status: yup.string().oneOf(["Done", "To do", "Canceled"]).required(),
   deadline: yup.date().typeError("Por favor, informe uma data").required(),
   category: yup
     .string()
-    .oneOf(["Trabalho", "Escola", "Casa"], "Escolha uma categoria")
+    .oneOf(["Trabalho", "Estudos", "Casa"], "Escolha uma categoria")
     .required("Esolha uma categoria"),
-  createdAt: yup.string().required(),
+  createdAt: yup.date().required(),
 });
 type FormData = yup.InferType<typeof schema>;
 
@@ -36,8 +37,9 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
+      id: 'todo-' + Date.now(),
       status: "To do",
-      createdAt: new Date().toLocaleDateString(),
+      createdAt: new Date(),
     },
   });
 
@@ -115,7 +117,7 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
                 <option value="default">Selecione</option>
                 <option value="Casa">Casa</option>
                 <option value="Trabalho">Trabalho</option>
-                <option value="Escola">Escola</option>
+                <option value="Estudos">Estudos</option>
               </select>
               <p className="h-1 text-xs text-pink-500 text-right">
                 {errors.category?.message}
