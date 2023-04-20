@@ -1,6 +1,6 @@
 interface BagdeProps {
   size?: "xs" | "sm" | "base" | "lg" | "xl";
-  color?: "primary" | "secondary" | "success" | "warning" | "error" | "info";
+  color?: "primary" | "secondary" | "success" | "warning" | "error" | "info" | "neutral";
   text: string;
 }
 
@@ -27,6 +27,8 @@ export const Badge = ({ size = "base", color = "primary", text }: BagdeProps) =>
       ? "bg-amber-100 text-amber-500"
       : color === "error"
       ? "bg-red-100 text-red-500"
+      : color === "neutral"
+      ? "bg-gray-100 text-gray-500"
       : "bg-sky-100 text-sky-500";
 
   return (

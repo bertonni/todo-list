@@ -5,6 +5,7 @@ import { useTodos } from "../contexts/TodosContext";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { Toast } from "../components/Toast";
 import { Message } from "../@types/types";
+import { ConfirmBox } from "../components/ConfirmBox";
 
 const statuses: string[] = ["To do", "Done", "Canceled"];
 
@@ -37,6 +38,8 @@ export const Todos = () => {
   const { todos } = useTodos();
   const [currentTab, setCurrentTab] = useState<number>(1);
   const [todoMessage, setTodoMessage] = useState<string>("Não há tarefas cadastradas");
+  const [showConfirmBox, setShowConfirmBox] = useState<boolean>(false);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
   useEffect(() => {
     const data = todos.filter(
@@ -63,6 +66,14 @@ export const Todos = () => {
   return (
     <div className="rounded text-gray-700">
       <h1 className="font-medium text-2xl my-4">Lista de Tarefas</h1>
+      <AnimatePresence>
+        {showConfirmBox ? (
+          <ConfirmBox
+            action={setConfirmDelete}
+            close={() => setShowConfirmBox(false)}
+          />
+        ) : null}
+      </AnimatePresence>
       <TabNavigation active={currentTab} setActive={setCurrentTab} />
 
       {todos.length > 0 &&
@@ -73,8 +84,8 @@ export const Todos = () => {
           initial="hidden"
           animate="visible"
           className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4
-          2xl:grid-cols-5 pb-2 flex-wrap gap-3 flex-1 max-h-[calc(100vh-15rem)]
-          overflow-auto"
+            2xl:grid-cols-5 pb-2 flex-wrap gap-3 max-h-[calc(100vh-16rem)]
+            overflow-auto flex-1"
         >
           {todos
             .filter((todo) => todo.status === statuses[currentTab - 1])

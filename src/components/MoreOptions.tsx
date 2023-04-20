@@ -1,7 +1,6 @@
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { CheckCircle, Edit2, Trash2, X, XCircle } from "react-feather";
 import { useTodos } from "../contexts/TodosContext";
-import { Message } from "../@types/types";
 
 interface MoreOptionsProps {
   id: string;
@@ -18,6 +17,7 @@ export const MoreOptions = ({ id, close }: MoreOptionsProps) => {
 
   const handleRemove = () => {
     removeTodo(id);
+    // setShowConfirmBox(true);
   };
 
   const handleFinish = () => {
@@ -38,7 +38,7 @@ export const MoreOptions = ({ id, close }: MoreOptionsProps) => {
         right-0 border-l w-max bg-gray-50"
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="h-full p-2 flex flex-col items-end gap-1">
+      <div className="h-full p-2 flex flex-col justify-evenly">
         <button
           title="Fechar"
           className="p-2 hover:bg-white rounded-full"

@@ -1,9 +1,6 @@
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { Todo } from "../@types/types";
-import {
-  Calendar,
-  MoreHorizontal,
-} from "react-feather";
+import { Calendar, MoreHorizontal } from "react-feather";
 import { Badge } from "./Badge";
 import { MoreOptions } from "./MoreOptions";
 import { useEffect, useState } from "react";
@@ -32,11 +29,12 @@ const colors: string[] = [
   "primary",
   "info",
   "secondary",
+  "neutral",
   "success",
   "warning",
   "error",
 ];
-const categories: string[] = ["Trabalho", "Estudos", "Casa"];
+const categories: string[] = ["Trabalho", "Estudos", "Casa", "Sem Categoria"];
 
 const buttonVariant: Variants = {
   hidden: { opacity: 0, transition: { delay: 0.1 } },
@@ -70,6 +68,18 @@ export const TodoCard = ({ todo, variant }: TodoCardProps) => {
 
   const dateColorClass: string = "text-gray-400";
   const badgeColor: any = colors[categories.indexOf(category)] ?? "primary";
+  const status =
+    todo.status === "Canceled"
+      ? "Cancelada"
+      : todo.status === "Done"
+      ? "Concluída"
+      : "A fazer";
+  const statusColor =
+    todo.status === "Canceled"
+      ? "error"
+      : todo.status === "Done"
+      ? "success"
+      : "info";
 
   return (
     <motion.div
@@ -80,11 +90,7 @@ export const TodoCard = ({ todo, variant }: TodoCardProps) => {
     >
       {/* header */}
       <div className="h-10 flex justify-between items-center px-4 text-gray-500 mb-3">
-        <Badge
-          size="sm"
-          color={badgeColor}
-          text={category}
-        />
+        <Badge size="sm" color={badgeColor} text={category} />
         <AnimatePresence mode="wait">
           {showOptions ? (
             <MoreOptions id={todo.id} close={() => setShowOptions(false)} />
@@ -116,10 +122,17 @@ export const TodoCard = ({ todo, variant }: TodoCardProps) => {
 
       {/* footer */}
       <div
-        className={`flex border-t w-full justify-end py-4 px-3 text-gray-500 ${dateColorClass}`}
+        className={`flex border-t w-full justify-between py-4 px-3 text-gray-500 ${dateColorClass}`}
       >
-        <Calendar size={16} />
-        <span className="text-xs rounded px-1">{formatDate(deadline)}</span>
+        <span>
+          {todo.status !== "To do" ? (
+            <Badge text={status} size="xs" color={statusColor} />
+          ) : null}
+        </span>
+        <div className="flex items-center">
+          <Calendar size={16} />
+          <span className="text-xs rounded px-1">{formatDate(deadline)}</span>
+        </div>
       </div>
     </motion.div>
   );

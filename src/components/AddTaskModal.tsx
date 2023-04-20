@@ -22,7 +22,7 @@ const schema = yup.object({
   deadline: yup.date().typeError("Por favor, informe uma data").required(),
   category: yup
     .string()
-    .oneOf(["Trabalho", "Estudos", "Casa"], "Escolha uma categoria")
+    .oneOf(["Trabalho", "Estudos", "Casa", "Sem Categoria"], "Escolha uma categoria")
     .required("Esolha uma categoria"),
   createdAt: yup.date().required(),
 });
@@ -51,7 +51,7 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
   return (
     <div
       className="bg-black/40 fixed h-screen w-full inset-0 px-4 flex
-        justify-center items-center z-20"
+        justify-center items-center z-40"
     >
       <motion.div
         variants={variants}
@@ -118,6 +118,7 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
                 <option value="Casa">Casa</option>
                 <option value="Trabalho">Trabalho</option>
                 <option value="Estudos">Estudos</option>
+                <option value="Sem Categoria">Sem Categoria</option>
               </select>
               <p className="h-1 text-xs text-pink-500 text-right">
                 {errors.category?.message}

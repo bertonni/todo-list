@@ -6,7 +6,7 @@ const variants: Variants = {
 };
 
 interface ToastProps {
-  variant: "primary" | "secondary" | "info" | "success" | "warning" | "error";
+  variant: "primary" | "secondary" | "info" | "success" | "warning" | "error" | "neutral";
   message: string;
 }
 
@@ -22,6 +22,8 @@ export const Toast = ({ variant = "primary", message }: ToastProps) => {
       ? "bg-amber-100 text-amber-500"
       : variant === "error"
       ? "bg-red-100 text-red-500"
+      : variant === "neutral"
+      ? "bg-gray-100 text-gray-500"
       : "bg-sky-100 text-sky-500";
 
   return (

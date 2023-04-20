@@ -21,7 +21,7 @@ export const Slidebar = ({ close, active, setActive }: SlidebarProps) => {
   };
 
   return (
-    <div className="bg-black/40 inset-0 fixed h-screen w-full z-10 sm:hidden">
+    <div className="bg-black/40 inset-0 fixed h-screen w-full z-40 sm:hidden">
       <motion.div
         variants={variants}
         initial="hidden"

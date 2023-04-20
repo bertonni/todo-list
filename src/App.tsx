@@ -35,12 +35,13 @@ function App() {
       <AnimatePresence mode="wait">
         {showAddTaskModal ? <AddTaskModal close={() => setShowAddTaskModal(false)} /> : null}
       </AnimatePresence>
-      <div className="px-6 sm:px-10 lg:px-14 flex flex-col gap-2 pb-20">
+      <div className="px-6 sm:px-10 lg:px-14 flex flex-col gap-2 pb-16">
         {activeItem === 1 ? <Todos /> : <Options />}
         <button
-          className="rounded-full flex items-center gap-2 text-lg
+          className="rounded-full flex items-center gap-2 text-lg z-30
             bg-indigo-500 text-white py-2 pl-6 pr-4 w-max absolute
-            right-6 bottom-10 shadow-lg hover:brightness-105 shadow-indigo-300"
+            right-6 bottom-6 sm:bottom-10 shadow-lg hover:brightness-105
+            shadow-indigo-300"
           onClick={() => setShowAddTaskModal(true)}
         >
           Criar Tarefa

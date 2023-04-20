@@ -9,6 +9,6 @@ export interface Todo {
 }
 
 export interface Message {
-  variant: "primary" | "secondary" | "success" | "warning" | "error" | "info";
+  variant: "primary" | "secondary" | "success" | "warning" | "error" | "info" | "neutral";
   text: string;
 }
