@@ -14,7 +14,7 @@ const variants: Variants = {
 
 export const ConfirmBox = ({
   title = "Você tem certeza?",
-  buttonText = ["Não", "Sim"],
+  buttonText = [],
   action,
   close,
 }: ConfirmBoxProps) => {
@@ -22,6 +22,23 @@ export const ConfirmBox = ({
     action(value);
     close();
   };
+
+  let text = [];
+
+  switch (buttonText.length) {
+    case 0:
+      text = ["Não", "Sim"];
+      break;
+    case 1:
+      text = [buttonText[0], "Sim"];
+      break;
+    case 2:
+      text = buttonText;
+      break;
+    default:
+      text = [buttonText[0], buttonText[1]]
+  }
+
   return (
     <div
       className="bg-black/40 inset-0 fixed h-screen w-full z-40
@@ -52,14 +69,14 @@ export const ConfirmBox = ({
               hover:bg-indigo-50 transition-all h-10"
             onClick={() => handleClick(false)}
           >
-            {buttonText[0]}
+            {text[0]}
           </button>
           <button
             className="rounded-full px-6 font-medium bg-indigo-500
           text-white h-10 hover:brightness-110"
             onClick={() => handleClick(true)}
           >
-            {buttonText[1]}
+            {text[1]}
           </button>
         </div>
       </motion.div>

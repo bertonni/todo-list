@@ -3,7 +3,7 @@ import { Todo } from "../@types/types";
 import { Calendar, MoreHorizontal } from "react-feather";
 import { Chip } from "./Chip";
 import { MoreOptions } from "./MoreOptions";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface TodoCardProps {
   todo: Todo;
@@ -46,7 +46,6 @@ const buttonVariant: Variants = {
 export const TodoCard = ({ todo, variant, showConfirmBox, setTaskId }: TodoCardProps) => {
   const { title, description, deadline, category } = todo;
   const [showOptions, setShowOptions] = useState<boolean>(false);
-  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
   const getDifferenceDays = (date: Date) => {
     const today = new Date();
@@ -106,7 +105,7 @@ export const TodoCard = ({ todo, variant, showConfirmBox, setTaskId }: TodoCardP
             animate="visible"
             // className="p-1 rounded-full hover:bg-gray-50"
             className="rounded-full h-max p-1 z-20 flex flex-col absolute top-2
-            right-2 hover:bg-gray-100"
+              right-2 hover:bg-gray-100"
             onClick={(e) => {
               e.stopPropagation();
               setShowOptions(true);
