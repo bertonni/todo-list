@@ -1,10 +1,14 @@
-import { motion, Variants } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import { CheckCircle, Edit2, Trash2, X, XCircle } from "react-feather";
 import { useTodos } from "../contexts/TodosContext";
+import { useEffect, useState } from "react";
+import { ConfirmBox } from "./ConfirmBox";
 
 interface MoreOptionsProps {
   id: string;
   close: () => void;
+  showConfirmBox: (value: boolean) => void;
+  action: (id: string) => void;
 }
 
 const variants: Variants = {
@@ -12,12 +16,13 @@ const variants: Variants = {
   visible: { right: 0, x: 0, transition: { duration: 0.3 } },
 };
 
-export const MoreOptions = ({ id, close }: MoreOptionsProps) => {
-  const { removeTodo, finishTodo, cancelTodo } = useTodos();
+export const MoreOptions = ({ id, close, showConfirmBox, action }: MoreOptionsProps) => {
+  const { finishTodo, cancelTodo } = useTodos();
+
 
   const handleRemove = () => {
-    removeTodo(id);
-    // setShowConfirmBox(true);
+    showConfirmBox(true);
+    action(id);
   };
 
   const handleFinish = () => {
@@ -38,6 +43,7 @@ export const MoreOptions = ({ id, close }: MoreOptionsProps) => {
         right-0 border-l w-max bg-gray-50"
       onClick={(e) => e.stopPropagation()}
     >
+
       <div className="h-full p-2 flex flex-col justify-evenly">
         <button
           title="Fechar"

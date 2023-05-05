@@ -4,7 +4,7 @@ interface BagdeProps {
   text: string;
 }
 
-export const Badge = ({ size = "base", color = "primary", text }: BagdeProps) => {
+export const Chip = ({ size = "base", color = "primary", text }: BagdeProps) => {
   const fontSize =
     size === "xs"
       ? "text-xs"

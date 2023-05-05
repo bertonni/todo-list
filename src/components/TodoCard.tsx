@@ -1,13 +1,15 @@
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { Todo } from "../@types/types";
 import { Calendar, MoreHorizontal } from "react-feather";
-import { Badge } from "./Badge";
+import { Chip } from "./Chip";
 import { MoreOptions } from "./MoreOptions";
 import { useEffect, useState } from "react";
 
 interface TodoCardProps {
   todo: Todo;
   variant: Variants;
+  showConfirmBox: (value: boolean) => void;
+  setTaskId: (id: string) => void;
 }
 
 const months: string[] = [
@@ -41,9 +43,10 @@ const buttonVariant: Variants = {
   visible: { opacity: 1, transition: { delay: 0.3 } },
 };
 
-export const TodoCard = ({ todo, variant }: TodoCardProps) => {
+export const TodoCard = ({ todo, variant, showConfirmBox, setTaskId }: TodoCardProps) => {
   const { title, description, deadline, category } = todo;
   const [showOptions, setShowOptions] = useState<boolean>(false);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
   const getDifferenceDays = (date: Date) => {
     const today = new Date();
@@ -90,10 +93,10 @@ export const TodoCard = ({ todo, variant }: TodoCardProps) => {
     >
       {/* header */}
       <div className="h-10 flex justify-between items-center px-4 text-gray-500 mb-3">
-        <Badge size="sm" color={badgeColor} text={category} />
+        <Chip size="sm" color={badgeColor} text={category} />
         <AnimatePresence mode="wait">
           {showOptions ? (
-            <MoreOptions id={todo.id} close={() => setShowOptions(false)} />
+            <MoreOptions id={todo.id} close={() => setShowOptions(false)} showConfirmBox={showConfirmBox} action={setTaskId} />
           ) : null}
         </AnimatePresence>
         {!showOptions ? (
@@ -126,7 +129,7 @@ export const TodoCard = ({ todo, variant }: TodoCardProps) => {
       >
         <span>
           {todo.status !== "To do" ? (
-            <Badge text={status} size="xs" color={statusColor} />
+            <Chip text={status} size="xs" color={statusColor} />
           ) : null}
         </span>
         <div className="flex items-center">

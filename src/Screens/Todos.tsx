@@ -35,11 +35,20 @@ const messageVariant: Variants = {
 };
 
 export const Todos = () => {
-  const { todos } = useTodos();
+  const { todos, removeTodo } = useTodos();
   const [currentTab, setCurrentTab] = useState<number>(1);
   const [todoMessage, setTodoMessage] = useState<string>("Não há tarefas cadastradas");
+  const [taskId, setTaskId] = useState<string>("");
+  
   const [showConfirmBox, setShowConfirmBox] = useState<boolean>(false);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (confirmDelete) {
+      removeTodo(taskId);
+      setConfirmDelete(false);
+    }
+  }, [confirmDelete]);
 
   useEffect(() => {
     const data = todos.filter(
@@ -49,7 +58,7 @@ export const Todos = () => {
     if (data.length === 0) {
       switch (currentTab) {
         case 1:
-          setTodoMessage("Não há tarefas cadastradas");
+          setTodoMessage("Não há tarefas a fazer");
           break;
         case 2:
           setTodoMessage("Não há tarefas realizadas");
@@ -65,7 +74,7 @@ export const Todos = () => {
 
   return (
     <div className="rounded text-gray-700">
-      <h1 className="font-medium text-2xl my-4">Lista de Tarefas</h1>
+      <h1 className="font-medium text-2xl lg:text-3xl xl:text-4xl my-4">Lista de Tarefas</h1>
       <AnimatePresence>
         {showConfirmBox ? (
           <ConfirmBox
@@ -94,6 +103,8 @@ export const Todos = () => {
                 todo={todo}
                 key={todo.id}
                 variant={item}
+                showConfirmBox={setShowConfirmBox}
+                setTaskId={setTaskId}
               />
             ))}
         </motion.div>
