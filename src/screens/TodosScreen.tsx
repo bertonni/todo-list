@@ -70,7 +70,7 @@ export const TodosScreen = () => {
     } else {
       setTodoMessage("");
     }
-  }, [currentTab]);
+  }, [currentTab, todos]);
 
   return (
     <div className="rounded text-gray-700">

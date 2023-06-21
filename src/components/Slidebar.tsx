@@ -42,12 +42,12 @@ export const Slidebar = ({ close, active, setActive }: SlidebarProps) => {
           icon={<List size={20} />}
           action={() => handleClick(1)}
         />
-        <NavButton
+        {/* <NavButton
           isActive={active === 2}
           title={"Opções"}
           icon={<Settings size={20} />}
           action={() => handleClick(2)}
-        />
+        /> */}
       </motion.div>
     </div>
   );
