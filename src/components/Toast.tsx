@@ -1,8 +1,8 @@
 import { motion, Variants } from "framer-motion";
 
 const variants: Variants = {
-  hidden: { y: 40, opacity: 0, transition: { duration: 0.3, type: "spring", stiffness: 180 } },
-  visible: { y: 0, opacity: 1, transition: { duration: 0.3, type: "spring", stiffness: 180 }  },
+  hidden: { opacity: 0, transition: { duration: 0.7 } },
+  visible: { opacity: 1, transition: { duration: 0.7 }  },
 };
 
 interface ToastProps {

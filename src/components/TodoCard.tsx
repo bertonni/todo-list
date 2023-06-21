@@ -87,11 +87,11 @@ export const TodoCard = ({ todo, variant, showConfirmBox, setTaskId }: TodoCardP
     <motion.div
       variants={variant}
       className="flex flex-col text-gray-700 rounded-xl shadow-md
-        pt-3 w-full bg-white relative overflow-hidden"
+        pt-3 w-full bg-white relative overflow-hidden min-h-[12rem]"
       onClick={() => setShowOptions(false)}
     >
       {/* header */}
-      <div className="h-10 flex justify-between items-center px-4 text-gray-500 mb-3">
+      <div className="h-10 flex justify-between items-center px-4 text-gray-500 mb-1">
         <Chip size="sm" color={badgeColor} text={category} />
         <AnimatePresence mode="wait">
           {showOptions ? (

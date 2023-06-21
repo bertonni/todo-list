@@ -81,7 +81,7 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
               </label>
               <input
                 id="title"
-                className="h-10 rounded border px-3 focus:outline-1 text-gray-500"
+                className="h-12 rounded border px-3 focus:outline-1 text-gray-500"
                 {...register("title")}
               />
               <p className="h-1 text-xs text-pink-500 text-right">
@@ -112,7 +112,7 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
               <select
                 id="category"
                 {...register("category")}
-                className="border rounded px-3 h-10 text-gray-500"
+                className="border rounded px-3 h-12 text-gray-500"
               >
                 <option value="default">Selecione</option>
                 <option value="Casa">Casa</option>
@@ -131,7 +131,7 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
               <input
                 id="deadline"
                 type="date"
-                className="h-10 rounded border px-3 focus:outline-1 text-gray-500"
+                className="h-12 rounded border px-3 focus:outline-1 text-gray-500"
                 {...register("deadline")}
               />
               <p className="h-1 text-xs text-pink-500 text-right">

@@ -37,12 +37,12 @@ export const Navbar = ({ active, setActive }: NavbarProps) => {
           icon={<List size={20} />}
           action={() => setActive(1)}
         />
-        <NavButton
+        {/* <NavButton
           isActive={active === 2}
           title={"Opções"}
           icon={<Settings size={20} />}
           action={() => setActive(2)}
-        />
+        /> */}
       </div>
     </div>
   );
