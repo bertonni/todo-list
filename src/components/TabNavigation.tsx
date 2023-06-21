@@ -25,7 +25,7 @@ export const TabNavigation = ({ active, setActive }: TabNavigationProps) => {
           flex items-center justify-between`}
         onClick={() => setActive(1)}
       >
-        <span>A fazer</span>
+        <span>A fazer 2</span>
         <Badge value={todoCount} />
       </div>
       <div
