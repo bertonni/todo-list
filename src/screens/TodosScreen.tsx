@@ -34,7 +34,7 @@ const messageVariant: Variants = {
   visible: { y: 0, opacity: 1 },
 };
 
-export const Todos = () => {
+export const TodosScreen = () => {
   const { todos, removeTodo } = useTodos();
   const [currentTab, setCurrentTab] = useState<number>(1);
   const [todoMessage, setTodoMessage] = useState<string>("Não há tarefas cadastradas");

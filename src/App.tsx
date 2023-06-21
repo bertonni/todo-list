@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence } from 'framer-motion';
 import { Navbar } from "./components/Navbar";
-import { Todos } from "./screens/Todos";
+import { TodosScreen } from "./screens/TodosScreen";
 import { Plus } from "react-feather";
-import { Options } from "./screens/Options";
+import { OptionsScreen } from "./screens/OptionsScreen";
 import { AddTaskModal } from "./components/AddTaskModal";
 import { useTodos } from "./contexts/TodosContext";
 import { Toast } from "./components/Toast";
@@ -36,7 +36,7 @@ function App() {
         {showAddTaskModal ? <AddTaskModal close={() => setShowAddTaskModal(false)} /> : null}
       </AnimatePresence>
       <div className="px-6 sm:px-10 lg:px-14 flex flex-col gap-2 pb-16">
-        {activeItem === 1 ? <Todos /> : <Options />}
+        {activeItem === 1 ? <TodosScreen /> : <OptionsScreen />}
         <button
           className="rounded-xl flex items-center gap-2 text-lg z-30
             bg-indigo-500 text-white py-4 pl-6 pr-4 w-max absolute
