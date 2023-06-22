@@ -4,8 +4,9 @@ import { TodoCard } from "../components/TodoCard";
 import { useTodos } from "../contexts/TodosContext";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { Toast } from "../components/Toast";
-import { Message } from "../@types/types";
+import { Message, Todo } from "../@types/types";
 import { ConfirmBox } from "../components/ConfirmBox";
+import { EditTaskModal } from "../components/EditTaskModal";
 
 const statuses: string[] = ["To do", "Done", "Canceled"];
 
@@ -36,12 +37,14 @@ const messageVariant: Variants = {
 
 export const TodosScreen = () => {
   const { todos, removeTodo } = useTodos();
-  const [currentTab, setCurrentTab] = useState<number>(1);
-  const [todoMessage, setTodoMessage] = useState<string>("Não há tarefas cadastradas");
-  const [taskId, setTaskId] = useState<string>("");
-  
-  const [showConfirmBox, setShowConfirmBox] = useState<boolean>(false);
-  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
+  const [currentTab, setCurrentTab] = useState(1);
+  const [todoMessage, setTodoMessage] = useState("Não há tarefas cadastradas");
+  const [taskId, setTaskId] = useState("");
+
+  const [showConfirmBox, setShowConfirmBox] = useState(false);
+  const [showEditTaskModal, setShowEditTaskModal] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Todo | null>(null);
 
   useEffect(() => {
     if (confirmDelete) {
@@ -72,10 +75,25 @@ export const TodosScreen = () => {
     }
   }, [currentTab, todos]);
 
+  const handleShowEditModal = (value: boolean, task: Todo) => {
+    setShowEditTaskModal(value);
+    setSelectedTask(task);
+  };
+
+  const handleCloseEditModal = () => {
+    setSelectedTask(null);
+    setShowEditTaskModal(false);
+  };
+
   return (
     <div className="rounded text-gray-700">
-      <h1 className="font-medium text-3xl lg:text-5xl my-6">Lista de Tarefas</h1>
-      <AnimatePresence>
+      <h1 className="font-medium text-3xl lg:text-5xl my-6">
+        Lista de Tarefas
+      </h1>
+      <AnimatePresence mode="wait">
+        {showEditTaskModal && selectedTask ? (
+          <EditTaskModal task={selectedTask} close={handleCloseEditModal} />
+        ) : null}
         {showConfirmBox ? (
           <ConfirmBox
             action={setConfirmDelete}
@@ -94,7 +112,7 @@ export const TodosScreen = () => {
           animate="visible"
           className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4
             2xl:grid-cols-5 flex-wrap gap-3 max-h-[calc(100vh-14rem)]
-            overflow-auto flex-1 pb-12"
+            overflow-auto flex-1 pb-16"
         >
           {todos
             .filter((todo) => todo.status === statuses[currentTab - 1])
@@ -104,6 +122,7 @@ export const TodosScreen = () => {
                 key={todo.id}
                 variant={item}
                 showConfirmBox={setShowConfirmBox}
+                showEditModal={handleShowEditModal}
                 setTaskId={setTaskId}
               />
             ))}

@@ -13,7 +13,8 @@ interface TodosContextDataProps {
   message: Message;
   addTodo: (todo: Todo) => void;
   removeTodo: (id: string) => void;
-  finishTodo: (id: string) => void;
+  updateTodo: (todo: Todo) => void;
+  changeTodoStatus: (id: string, status: "Done" | "To do" | "Canceled") => void;
   cancelTodo: (id: string) => void;
   setMessage: (message: Message) => void;
 }
@@ -79,6 +80,18 @@ export const TodosContextProvider = ({ children }: TodosProviderProps) => {
     window.localStorage.setItem("todos", JSON.stringify(todos));
     setTodos(todos);
   };
+
+  const updateTodo = (todo: Todo) => {
+    const todoIndex = todos.findIndex((task) => task.id === todo.id);
+    todos[todoIndex] = todo;
+    setMessage({
+      variant: "success",
+      text: "Tarefa atualizada com sucesso!",
+    });
+    todos.sort((a, b) => Number(a.deadline) - Number(b.deadline));
+    setTodos(todos);
+    window.localStorage.setItem("todos", JSON.stringify(todos));
+  };
   
   const removeTodo = (id: string) => {
     const newTodos: Todo[] = todos.filter((todo) => todo.id !== id);
@@ -89,18 +102,19 @@ export const TodosContextProvider = ({ children }: TodosProviderProps) => {
     setTodos(newTodos);
     window.localStorage.setItem("todos", JSON.stringify(newTodos));
   };
-  
-  const finishTodo = (id: string) => {
-    const currentTask: Todo = todos.filter((todo) => todo.id === id)[0];
-    const updatedTodos: Todo[] = todos.filter((todo) => todo.id !== id);
-    currentTask.status = "Done";
-    updatedTodos.push(currentTask);
+ 
+  const changeTodoStatus = (id: string, status: "Done" | "To do" | "Canceled") => {
+    const todoIndex = todos.findIndex((todo) => todo.id === id);
+
+    todos[todoIndex].status = status    
+    const action = status === "To do" ? "reativada" : "concluída";
+
     setMessage({
       variant: "success",
-      text: "A tarefa foi concluída com sucesso!",
+      text: `A tarefa foi ${action} com sucesso!`,
     });
-    window.localStorage.setItem("todos", JSON.stringify(updatedTodos));
-    setTodos(updatedTodos);
+    window.localStorage.setItem("todos", JSON.stringify(todos));
+    setTodos(todos);
   }
   
   const cancelTodo = (id: string) => {
@@ -122,8 +136,9 @@ export const TodosContextProvider = ({ children }: TodosProviderProps) => {
       message,
       addTodo,
       removeTodo,
+      updateTodo,
       cancelTodo,
-      finishTodo,
+      changeTodoStatus,
       setMessage,
     }),
     [todos, message]

@@ -16,7 +16,7 @@ export const TabNavigation = ({ active, setActive }: TabNavigationProps) => {
   return (
     <div
       className="sm:w-fit rounded-lg bg-white my-4 lg:my-8 flex items-center
-      divide-x h-10 lg:h-12 font-medium w-full"
+      divide-x h-10 lg:h-12 w-full"
     >
       <div
         className={`px-4 py-2 lg:py-3 cursor-pointer ${active === 1 ? 

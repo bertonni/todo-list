@@ -9,6 +9,7 @@ interface TodoCardProps {
   todo: Todo;
   variant: Variants;
   showConfirmBox: (value: boolean) => void;
+  showEditModal: (value: boolean, task: Todo) => void;
   setTaskId: (id: string) => void;
 }
 
@@ -43,7 +44,13 @@ const buttonVariant: Variants = {
   visible: { opacity: 1, transition: { delay: 0.3 } },
 };
 
-export const TodoCard = ({ todo, variant, showConfirmBox, setTaskId }: TodoCardProps) => {
+export const TodoCard = ({
+  todo,
+  variant,
+  showConfirmBox,
+  showEditModal,
+  setTaskId,
+}: TodoCardProps) => {
   const { title, description, deadline, category } = todo;
   const [showOptions, setShowOptions] = useState<boolean>(false);
 
@@ -95,7 +102,14 @@ export const TodoCard = ({ todo, variant, showConfirmBox, setTaskId }: TodoCardP
         <Chip size="sm" color={badgeColor} text={category} />
         <AnimatePresence mode="wait">
           {showOptions ? (
-            <MoreOptions id={todo.id} close={() => setShowOptions(false)} showConfirmBox={showConfirmBox} action={setTaskId} />
+            <MoreOptions
+              id={todo.id}
+              close={() => setShowOptions(false)}
+              showConfirmBox={showConfirmBox}
+              showEditModal={showEditModal}
+              action={setTaskId}
+              status={todo.status}
+            />
           ) : null}
         </AnimatePresence>
         {!showOptions ? (
@@ -119,7 +133,9 @@ export const TodoCard = ({ todo, variant, showConfirmBox, setTaskId }: TodoCardP
       {/* body */}
       <div className="flex flex-col flex-1 px-4 pb-4">
         <h2 className="text-lg lg:text-xl font-medium">{title}</h2>
-        <p className="text-gray-400 line-clamp-2" title={description ?? ""}>{description}</p>
+        <p className="text-gray-400 line-clamp-2" title={description ?? ""}>
+          {description}
+        </p>
       </div>
 
       {/* footer */}

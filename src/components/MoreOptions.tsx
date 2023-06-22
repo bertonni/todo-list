@@ -1,14 +1,22 @@
-import { AnimatePresence, motion, Variants } from "framer-motion";
-import { CheckCircle, Edit2, Trash2, X, XCircle } from "react-feather";
+import { motion, Variants } from "framer-motion";
+import {
+  CheckCircle,
+  CornerUpLeft,
+  Edit2,
+  Trash2,
+  X,
+  XCircle,
+} from "react-feather";
 import { useTodos } from "../contexts/TodosContext";
-import { useEffect, useState } from "react";
-import { ConfirmBox } from "./ConfirmBox";
+import { Todo } from "../@types/types";
 
 interface MoreOptionsProps {
   id: string;
   close: () => void;
   showConfirmBox: (value: boolean) => void;
+  showEditModal: (value: boolean, task: Todo) => void;
   action: (id: string) => void;
+  status: "Done" | "To do" | "Canceled";
 }
 
 const variants: Variants = {
@@ -16,21 +24,33 @@ const variants: Variants = {
   visible: { right: 0, x: 0, transition: { duration: 0.3 } },
 };
 
-export const MoreOptions = ({ id, close, showConfirmBox, action }: MoreOptionsProps) => {
-  const { finishTodo, cancelTodo } = useTodos();
-
+export const MoreOptions = ({
+  id,
+  status,
+  close,
+  showConfirmBox,
+  showEditModal,
+  action,
+}: MoreOptionsProps) => {
+  const { changeTodoStatus, cancelTodo, todos } = useTodos();
 
   const handleRemove = () => {
     showConfirmBox(true);
     action(id);
   };
 
+  const handleEdit = () => {
+    const currentTask = todos.filter((todo) => todo.id === id)[0];
+    showEditModal(true, currentTask);
+  }
+
   const handleFinish = () => {
-    finishTodo(id);
+    changeTodoStatus(id, "Done");
   };
 
   const handleCancel = () => {
-    cancelTodo(id);
+    if (status === "Canceled" || status === "Done") changeTodoStatus(id, "To do");
+    else cancelTodo(id);
   };
 
   return (
@@ -43,7 +63,6 @@ export const MoreOptions = ({ id, close, showConfirmBox, action }: MoreOptionsPr
         right-0 border-l w-max bg-gray-50"
       onClick={(e) => e.stopPropagation()}
     >
-
       <div className="h-full p-2 flex flex-col justify-evenly">
         <button
           title="Fechar"
@@ -56,6 +75,7 @@ export const MoreOptions = ({ id, close, showConfirmBox, action }: MoreOptionsPr
           title="Editar"
           className="p-2 hover:bg-white rounded-full hover:text-sky-500
           transition-all"
+          onClick={handleEdit}
         >
           <Edit2 size={20} />
         </button>
@@ -68,12 +88,16 @@ export const MoreOptions = ({ id, close, showConfirmBox, action }: MoreOptionsPr
           <Trash2 size={20} />
         </button>
         <button
-          title="Cancelar"
+          title={status === "Canceled" || status === "Done" ? "Reativar" : "Cancelar"}
           className="p-2 hover:bg-white rounded-full hover:text-pink-500
           transition-all"
           onClick={handleCancel}
         >
-          <XCircle size={20} />
+          {status === "Canceled" || status === "Done" ? (
+            <CornerUpLeft size={20} />
+          ) : (
+            <XCircle size={20} />
+          )}
         </button>
         <button
           title="Concluir"
