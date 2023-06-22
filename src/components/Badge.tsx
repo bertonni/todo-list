@@ -1,5 +1,3 @@
-import React from "react";
-
 interface BadgeProps {
   value: number;
 }
@@ -7,7 +5,7 @@ interface BadgeProps {
 export const Badge = ({ value }: BadgeProps) => {
   return (
     <div className="rounded-full bg-indigo-500 w-fit p-1 min-w-[1.5rem]
-      text-xs text-white">
+      text-xs text-white absolute -top-3 right-1">
       {value}
     </div>
   );

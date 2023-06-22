@@ -33,9 +33,10 @@ export const Toast = ({ variant = "primary", message }: ToastProps) => {
       animate="visible"
       exit="hidden"
       className={`${bgColor} rounded px-6 py-2 flex items-center justify-center
-      absolute left-0 right-0 mx-auto bottom-10 z-20 w-max min-w-[280px] min-h-[60px]`}
+        absolute left-0 right-0 mx-auto top-[2%] z-20 w-max min-w-[280px]
+        min-h-[60px]`}
     >
-      <p className="font-medium">{message}</p>
+      <p className="font-medium text-sm sm:text-base">{message}</p>
     </motion.div>
   );
 };

@@ -97,7 +97,7 @@ export const TodosContextProvider = ({ children }: TodosProviderProps) => {
     updatedTodos.push(currentTask);
     setMessage({
       variant: "success",
-      text: "A tarefa foi marcada como realizada!",
+      text: "A tarefa foi concluída com sucesso!",
     });
     window.localStorage.setItem("todos", JSON.stringify(updatedTodos));
     setTodos(updatedTodos);

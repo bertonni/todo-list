@@ -74,7 +74,7 @@ export const TodosScreen = () => {
 
   return (
     <div className="rounded text-gray-700">
-      <h1 className="font-medium text-2xl lg:text-3xl xl:text-4xl my-4">Lista de Tarefas</h1>
+      <h1 className="font-medium text-3xl lg:text-5xl my-6">Lista de Tarefas</h1>
       <AnimatePresence>
         {showConfirmBox ? (
           <ConfirmBox
@@ -93,8 +93,8 @@ export const TodosScreen = () => {
           initial="hidden"
           animate="visible"
           className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4
-            2xl:grid-cols-5 pb-2 flex-wrap gap-3 max-h-[calc(100vh-16rem)]
-            overflow-auto flex-1"
+            2xl:grid-cols-5 flex-wrap gap-3 max-h-[calc(100vh-14rem)]
+            overflow-auto flex-1 pb-12"
         >
           {todos
             .filter((todo) => todo.status === statuses[currentTab - 1])

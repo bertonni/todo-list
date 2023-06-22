@@ -118,8 +118,8 @@ export const TodoCard = ({ todo, variant, showConfirmBox, setTaskId }: TodoCardP
 
       {/* body */}
       <div className="flex flex-col flex-1 px-4 pb-4">
-        <h2 className="text-xl font-medium">{title}</h2>
-        <p className="text-gray-400">{description}</p>
+        <h2 className="text-lg lg:text-xl font-medium">{title}</h2>
+        <p className="text-gray-400 line-clamp-2" title={description ?? ""}>{description}</p>
       </div>
 
       {/* footer */}

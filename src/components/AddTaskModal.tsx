@@ -4,6 +4,7 @@ import { useTodos } from "../contexts/TodosContext";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useEffect, useState } from "react";
 
 interface AddTaskModalProps {
   close: () => void;
@@ -17,7 +18,7 @@ const variants: Variants = {
 const schema = yup.object({
   id: yup.string().required(),
   title: yup.string().required("Campo obrigatório"),
-  description: yup.string().max(125, "Insira, no máximo, 125 caracteres").nullable(),
+  description: yup.string().max(70, "Limite de caracteres excedido").nullable(),
   status: yup.string().oneOf(["Done", "To do", "Canceled"]).required(),
   deadline: yup.date().typeError("Por favor, informe uma data").required(),
   category: yup
@@ -32,6 +33,7 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
   const { addTodo } = useTodos();
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
@@ -42,6 +44,13 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
       createdAt: new Date(),
     },
   });
+  
+  const maxLength = 70;
+  const watchDescription = watch("description");
+  
+  useEffect(() => {
+    if (watchDescription?.length === maxLength) return
+  }, [watchDescription]);
 
   const onSubmit = (data: FormData) => {
     addTodo(data);
@@ -101,9 +110,15 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
                 className="rounded border px-3 py-2 focus:outline-1 text-gray-500 resize-none"
                 {...register("description")}
               />
-              <p className="h-1 text-xs text-pink-500 text-right">
-                {errors.description?.message}
-              </p>
+              <div className="h-1 flex justify-between">
+                <p className="text-xs text-gray-500 text-right">
+                  {watchDescription?.length} / 70
+                </p>
+                <p className="text-xs text-pink-500 text-right">
+                  {errors.description?.message}
+                </p>
+
+              </div>
             </div>
             <div className="flex flex-col">
               <label htmlFor="category" className="font-medium text-gray-600">
