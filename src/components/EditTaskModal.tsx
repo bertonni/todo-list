@@ -25,7 +25,10 @@ const schema = yup.object({
   deadline: yup.date().typeError("Por favor, informe uma data").required(),
   category: yup
     .string()
-    .oneOf(["Trabalho", "Estudos", "Casa", "Sem Categoria"], "Escolha uma categoria")
+    .oneOf(
+      ["Trabalho", "Estudos", "Casa", "Sem Categoria"],
+      "Escolha uma categoria"
+    )
     .required("Esolha uma categoria"),
   createdAt: yup.date().required(),
 });
@@ -33,9 +36,10 @@ type FormData = yup.InferType<typeof schema>;
 
 export const EditTaskModal = ({ task, close }: EditTaskModalProps) => {
   const { updateTodo } = useTodos();
-  const date = task.deadline.toString().substring(0, 10);
 
-  console.log(task.deadline);
+  if (typeof task.deadline === "string") task.deadline = new Date(task.deadline);
+
+  const date = task.deadline.toISOString().substring(0, 10);
 
   const {
     register,
@@ -50,21 +54,21 @@ export const EditTaskModal = ({ task, close }: EditTaskModalProps) => {
       description: task.description,
       status: task.status,
       category: task.category,
-      createdAt: task.createdAt
+      createdAt: task.createdAt,
     },
   });
-  
+
   const maxLength = 70;
   const watchDescription = watch("description");
 
   const onSubmit = (data: FormData) => {
-    console.log(data.deadline);
-    // const updatedDate = new Date(data.deadline);
-    // updatedDate.setHours(updatedDate.getHours() + 5);
+    // console.log(data.deadline.toISOString());
+    const updatedDate = new Date(data.deadline);
+    updatedDate.setHours(updatedDate.getHours() + 5);
 
-    // data.deadline = updatedDate;
-    // updateTodo(data);
-    // close();
+    data.deadline = updatedDate;
+    updateTodo(data);
+    close();
   };
 
   return (
@@ -127,7 +131,6 @@ export const EditTaskModal = ({ task, close }: EditTaskModalProps) => {
                 <p className="text-xs text-pink-500 text-right">
                   {errors.description?.message}
                 </p>
-
               </div>
             </div>
             <div className="flex flex-col">

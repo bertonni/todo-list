@@ -3,11 +3,12 @@ import { Todo } from "../@types/types";
 import { Calendar, MoreHorizontal } from "react-feather";
 import { Chip } from "./Chip";
 import { MoreOptions } from "./MoreOptions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface TodoCardProps {
   todo: Todo;
   variant: Variants;
+  showEditTask: boolean;
   showConfirmBox: (value: boolean) => void;
   showEditModal: (value: boolean, task: Todo) => void;
   setTaskId: (id: string) => void;
@@ -49,6 +50,7 @@ export const TodoCard = ({
   variant,
   showConfirmBox,
   showEditModal,
+  showEditTask,
   setTaskId,
 }: TodoCardProps) => {
   const { title, description, deadline, category } = todo;
@@ -64,6 +66,10 @@ export const TodoCard = ({
 
     return daysDiff;
   };
+
+  useEffect(() => {
+    if (showEditTask) setShowOptions(false);
+  }, [showEditTask]);
 
   const formatDate = (date: Date) => {
     const dayOfWeek =
@@ -117,7 +123,6 @@ export const TodoCard = ({
             variants={buttonVariant}
             initial={"hidden"}
             animate="visible"
-            // className="p-1 rounded-full hover:bg-gray-50"
             className="rounded-full h-max p-1 z-20 flex flex-col absolute top-2
               right-2 hover:bg-gray-100"
             onClick={(e) => {

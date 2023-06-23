@@ -123,6 +123,7 @@ export const TodosScreen = () => {
                 variant={item}
                 showConfirmBox={setShowConfirmBox}
                 showEditModal={handleShowEditModal}
+                showEditTask={showEditTaskModal}
                 setTaskId={setTaskId}
               />
             ))}
