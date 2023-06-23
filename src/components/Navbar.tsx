@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, List, Settings } from "react-feather";
+import { Menu, List } from "react-feather";
 import { Slidebar } from "./Slidebar";
 import { AnimatePresence } from "framer-motion";
 import { NavButton } from "./NavButton";

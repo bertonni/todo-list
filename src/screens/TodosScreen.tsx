@@ -3,8 +3,7 @@ import { TabNavigation } from "../components/TabNavigation";
 import { TodoCard } from "../components/TodoCard";
 import { useTodos } from "../contexts/TodosContext";
 import { AnimatePresence, motion, Variants } from "framer-motion";
-import { Toast } from "../components/Toast";
-import { Message, Todo } from "../@types/types";
+import { Todo } from "../@types/types";
 import { ConfirmBox } from "../components/ConfirmBox";
 import { EditTaskModal } from "../components/EditTaskModal";
 
