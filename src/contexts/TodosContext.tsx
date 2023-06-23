@@ -11,9 +11,11 @@ import { Message, Todo } from "../@types/types";
 interface TodosContextDataProps {
   todos: Todo[];
   message: Message;
+  currentColorScheme: "dark" | "light" | string;
   addTodo: (todo: Todo) => void;
   removeTodo: (id: string) => void;
   updateTodo: (todo: Todo) => void;
+  changeColorScheme: () => void;
   changeTodoStatus: (id: string, status: "Done" | "To do" | "Canceled") => void;
   cancelTodo: (id: string) => void;
   setMessage: (message: Message) => void;
@@ -46,8 +48,8 @@ const defaultTodos: Todo[] = [
 
 const defaultMessage: Message = {
   variant: "primary",
-  text: ""
-}
+  text: "",
+};
 
 export const TodosContext = createContext({} as TodosContextDataProps);
 
@@ -59,11 +61,18 @@ export const useTodos = (): TodosContextDataProps => {
 
 const localTodos = window.localStorage.getItem("todos");
 const localData = localTodos ? JSON.parse(localTodos) : defaultTodos;
+const localColor = window.localStorage.getItem("todo-color-scheme");
+
+const systemColorScheme = window.matchMedia("(prefers-color-scheme: light)");
+let defaultColorScheme = systemColorScheme.matches ? "light" : "dark"
+const localColorScheme = localColor ?? defaultColorScheme;
 
 export const TodosContextProvider = ({ children }: TodosProviderProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [todos, setTodos] = useState<Todo[]>(localData);
   const [message, setMessage] = useState<Message>(defaultMessage);
+  const [currentColorScheme, setCurrentColorScheme] =
+    useState(localColorScheme);
 
   useEffect(() => {
     todos.sort((a, b) => Number(a.deadline) - Number(b.deadline));
@@ -92,7 +101,7 @@ export const TodosContextProvider = ({ children }: TodosProviderProps) => {
     setTodos(todos);
     window.localStorage.setItem("todos", JSON.stringify(todos));
   };
-  
+
   const removeTodo = (id: string) => {
     const newTodos: Todo[] = todos.filter((todo) => todo.id !== id);
     setMessage({
@@ -102,11 +111,20 @@ export const TodosContextProvider = ({ children }: TodosProviderProps) => {
     setTodos(newTodos);
     window.localStorage.setItem("todos", JSON.stringify(newTodos));
   };
- 
-  const changeTodoStatus = (id: string, status: "Done" | "To do" | "Canceled") => {
+
+  const changeColorScheme = () => {
+    let newColorScheme = currentColorScheme === "light" ? "dark" : "light";
+    setCurrentColorScheme(newColorScheme);
+    window.localStorage.setItem("todo-color-scheme", newColorScheme);
+  };
+
+  const changeTodoStatus = (
+    id: string,
+    status: "Done" | "To do" | "Canceled"
+  ) => {
     const todoIndex = todos.findIndex((todo) => todo.id === id);
 
-    todos[todoIndex].status = status    
+    todos[todoIndex].status = status;
     const action = status === "To do" ? "reativada" : "concluída";
 
     setMessage({
@@ -115,8 +133,8 @@ export const TodosContextProvider = ({ children }: TodosProviderProps) => {
     });
     window.localStorage.setItem("todos", JSON.stringify(todos));
     setTodos(todos);
-  }
-  
+  };
+
   const cancelTodo = (id: string) => {
     const currentTask: Todo = todos.filter((todo) => todo.id === id)[0];
     const updatedTodos: Todo[] = todos.filter((todo) => todo.id !== id);
@@ -128,20 +146,22 @@ export const TodosContextProvider = ({ children }: TodosProviderProps) => {
     });
     window.localStorage.setItem("todos", JSON.stringify(updatedTodos));
     setTodos(updatedTodos);
-  }
+  };
 
   const memoedValues = useMemo(
     () => ({
       todos,
       message,
+      currentColorScheme,
       addTodo,
       removeTodo,
       updateTodo,
       cancelTodo,
       changeTodoStatus,
+      changeColorScheme,
       setMessage,
     }),
-    [todos, message]
+    [todos, message, currentColorScheme]
   );
 
   return (

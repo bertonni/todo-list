@@ -10,7 +10,7 @@ import { Toast } from "./components/Toast";
 
 function App() {
 
-  const { message, setMessage } = useTodos();
+  const { message, setMessage, currentColorScheme } = useTodos();
 
   const [activeItem, setActiveItem] = useState<number>(1);
   const [showAddTaskModal, setShowAddTaskModal] = useState<boolean>(false);
@@ -26,6 +26,11 @@ function App() {
       clearTimeout(showMessage);
     }
   }, [message]);
+
+  useEffect(() => {
+    if (currentColorScheme === "dark") document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+  }, [currentColorScheme]);
   
 
   return (
