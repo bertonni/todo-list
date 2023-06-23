@@ -5,8 +5,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useEffect, useState } from "react";
+import { Todo } from "../@types/types";
 
-interface AddTaskModalProps {
+interface EditTaskModalProps {
+  task: Todo;
   close: () => void;
 }
 
@@ -23,14 +25,22 @@ const schema = yup.object({
   deadline: yup.date().typeError("Por favor, informe uma data").required(),
   category: yup
     .string()
-    .oneOf(["Trabalho", "Estudos", "Casa", "Sem Categoria"], "Escolha uma categoria")
+    .oneOf(
+      ["Trabalho", "Estudos", "Casa", "Sem Categoria"],
+      "Escolha uma categoria"
+    )
     .required("Esolha uma categoria"),
   createdAt: yup.date().required(),
 });
 type FormData = yup.InferType<typeof schema>;
 
-export const AddTaskModal = ({ close }: AddTaskModalProps) => {
-  const { addTodo } = useTodos();
+export const EditTaskModal = ({ task, close }: EditTaskModalProps) => {
+  const { updateTodo } = useTodos();
+
+  if (typeof task.deadline === "string") task.deadline = new Date(task.deadline);
+
+  const date = task.deadline.toISOString().substring(0, 10);
+
   const {
     register,
     watch,
@@ -39,21 +49,25 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
-      id: 'todo-' + Date.now(),
-      status: "To do",
-      createdAt: new Date(),
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      category: task.category,
+      createdAt: task.createdAt,
     },
   });
-  
+
   const maxLength = 70;
   const watchDescription = watch("description");
-  
-  useEffect(() => {
-    if (watchDescription?.length === maxLength) return
-  }, [watchDescription]);
 
   const onSubmit = (data: FormData) => {
-    addTodo(data);
+    // console.log(data.deadline.toISOString());
+    const updatedDate = new Date(data.deadline);
+    updatedDate.setHours(updatedDate.getHours() + 5);
+
+    data.deadline = updatedDate;
+    updateTodo(data);
     close();
   };
 
@@ -74,7 +88,7 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
           border-b border-gray-200 rounded-t h-12 bg-indigo-50 font-medium
           text-lg pl-5"
         >
-          <h1 className="text-xl">Criar Tarefa</h1>
+          <h1>Editar Tarefa</h1>
           <button className="p-2 rounded-full" onClick={close}>
             <X size={28} />
           </button>
@@ -112,12 +126,11 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
               />
               <div className="h-1 flex justify-between">
                 <p className="text-xs text-gray-500 text-right">
-                  {watchDescription ? watchDescription.length : 0} / 70
+                  {watchDescription ? watchDescription.length : 0} / {maxLength}
                 </p>
                 <p className="text-xs text-pink-500 text-right">
                   {errors.description?.message}
                 </p>
-
               </div>
             </div>
             <div className="flex flex-col">
@@ -147,7 +160,8 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
                 id="deadline"
                 type="date"
                 className="h-12 rounded border px-3 focus:outline-1 text-gray-500"
-                {...register("deadline")}
+                {...register("deadline", { valueAsDate: true })}
+                defaultValue={date}
               />
               <p className="h-1 text-xs text-pink-500 text-right">
                 {errors.deadline?.message}

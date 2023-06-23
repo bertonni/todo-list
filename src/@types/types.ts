@@ -3,7 +3,7 @@ export interface Todo {
   title: string;
   description?: string | null | undefined;
   deadline: Date;
-  category: string;
+  category: "Trabalho" | "Estudos" | "Casa" | "Sem Categoria";
   status: "Done" | "To do" | "Canceled";
   createdAt: Date;
 }
