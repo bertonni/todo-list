@@ -50,7 +50,7 @@ export const Navbar = ({ active, setActive }: NavbarProps) => {
         aria-label="change-color"
         className="rounded-full p-2 hover:bg-gray-100 
         text-gray-600 hover:text-gray-500 ml-auto
-          transition-all"
+          transition-all hidden"
         onClick={() => changeColorScheme()}
       >
         {currentColorScheme === "light" ? <Moon /> : <Sun />}
