@@ -1,20 +1,22 @@
 import { useState } from "react";
-import { Menu, List, Settings } from "react-feather";
+import { Menu, List, Moon, Sun } from "react-feather";
 import { Slidebar } from "./Slidebar";
 import { AnimatePresence } from "framer-motion";
 import { NavButton } from "./NavButton";
+import { useTodos } from "../contexts/TodosContext";
 
 interface NavbarProps {
   active: number;
   setActive: (value: number) => void;
 }
-
 export const Navbar = ({ active, setActive }: NavbarProps) => {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  const { currentColorScheme, changeColorScheme } = useTodos();
 
   return (
-    <div className="bg-white h-14 flex items-center px-2 border-b border-gray-100">
+    <div className="h-14 flex items-center px-2 border-b border-gray-100 bg-white">
       <button
+        aria-label="menu"
         className="rounded-full p-2 hover:bg-gray-200 sm:hidden
         text-gray-600 hover:text-gray-500"
         onClick={() => setShowSidebar(true)}
@@ -44,6 +46,15 @@ export const Navbar = ({ active, setActive }: NavbarProps) => {
           action={() => setActive(2)}
         /> */}
       </div>
+      <button
+        aria-label="change-color"
+        className="rounded-full p-2 hover:bg-gray-100 
+        text-gray-600 hover:text-gray-500 ml-auto
+          transition-all hidden"
+        onClick={() => changeColorScheme()}
+      >
+        {currentColorScheme === "light" ? <Moon /> : <Sun />}
+      </button>
     </div>
   );
 };

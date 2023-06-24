@@ -129,6 +129,7 @@ export const TodoCard = ({
               e.stopPropagation();
               setShowOptions(true);
             }}
+            aria-label="more-options"
           >
             <MoreHorizontal />
           </motion.button>

@@ -1,5 +1,3 @@
-import { useTodos } from "../contexts/TodosContext";
-
 export const OptionsScreen = () => {
   return (
     <div>

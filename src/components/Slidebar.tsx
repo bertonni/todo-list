@@ -1,4 +1,4 @@
-import { X, List, Settings } from "react-feather";
+import { X, List } from "react-feather";
 import { motion, Variants } from "framer-motion";
 import { NavButton } from "./NavButton";
 

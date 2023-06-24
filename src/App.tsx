@@ -7,11 +7,10 @@ import { OptionsScreen } from "./screens/OptionsScreen";
 import { AddTaskModal } from "./components/AddTaskModal";
 import { useTodos } from "./contexts/TodosContext";
 import { Toast } from "./components/Toast";
-import { Message } from "./@types/types";
 
 function App() {
 
-  const { message, setMessage } = useTodos();
+  const { message, setMessage, currentColorScheme } = useTodos();
 
   const [activeItem, setActiveItem] = useState<number>(1);
   const [showAddTaskModal, setShowAddTaskModal] = useState<boolean>(false);
@@ -27,6 +26,11 @@ function App() {
       clearTimeout(showMessage);
     }
   }, [message]);
+
+  useEffect(() => {
+    if (currentColorScheme === "dark") document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+  }, [currentColorScheme]);
   
 
   return (
@@ -39,7 +43,7 @@ function App() {
         {activeItem === 1 ? <TodosScreen /> : <OptionsScreen />}
         <button
           className="rounded-xl flex items-center gap-2 text-lg z-30
-            bg-indigo-500 text-white py-4 pl-6 pr-4 w-max absolute
+            bg-indigo-500 text-white py-4 pl-6 pr-4 w-max fixed
             right-6 bottom-6 sm:bottom-10 shadow-lg hover:brightness-105
             shadow-indigo-300 font-medium"
           onClick={() => setShowAddTaskModal(true)}
