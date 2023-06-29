@@ -23,7 +23,10 @@ const schema = yup.object({
   deadline: yup.date().typeError("Por favor, informe uma data").required(),
   category: yup
     .string()
-    .oneOf(["Trabalho", "Estudos", "Casa", "Sem Categoria"], "Escolha uma categoria")
+    .oneOf(
+      ["Trabalho", "Estudos", "Casa", "Sem Categoria"],
+      "Escolha uma categoria"
+    )
     .required("Esolha uma categoria"),
   createdAt: yup.date().required(),
 });
@@ -39,17 +42,17 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
-      id: 'todo-' + Date.now(),
+      id: "todo-" + Date.now(),
       status: "To do",
       createdAt: new Date(),
     },
   });
-  
+
   const maxLength = 70;
   const watchDescription = watch("description");
-  
+
   useEffect(() => {
-    if (watchDescription?.length === maxLength) return
+    if (watchDescription?.length === maxLength) return;
   }, [watchDescription]);
 
   const onSubmit = (data: FormData) => {
@@ -110,14 +113,19 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
                 className="rounded border px-3 py-2 focus:outline-1 text-gray-500 resize-none"
                 {...register("description")}
               />
-              <div className="h-1 flex justify-between">
-                <p className="text-xs text-gray-500 text-right">
-                  {watchDescription ? watchDescription.length : 0} / 70
-                </p>
+              <div className="h-1 flex gap-3 justify-end">
                 <p className="text-xs text-pink-500 text-right">
                   {errors.description?.message}
                 </p>
-
+                <p
+                  className={`text-xs text-gray-500 text-right ${
+                    watchDescription && watchDescription.length > maxLength
+                      ? "text-pink-500"
+                      : ""
+                  }`}
+                >
+                  {watchDescription ? watchDescription.length : 0} / {maxLength}
+                </p>
               </div>
             </div>
             <div className="flex flex-col">
@@ -146,6 +154,7 @@ export const AddTaskModal = ({ close }: AddTaskModalProps) => {
               <input
                 id="deadline"
                 type="date"
+                max="9999-12-31"
                 className="h-12 rounded border px-3 focus:outline-1 text-gray-500"
                 {...register("deadline")}
               />

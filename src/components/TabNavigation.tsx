@@ -19,7 +19,7 @@ export const TabNavigation = ({ active, setActive }: TabNavigationProps) => {
       divide-x h-10 lg:h-12 w-full"
     >
       <div
-        className={`px-4 py-2 lg:py-3 cursor-pointer ${active === 1 ? 
+        className={`px-4 h-10 lg:h-12 cursor-pointer ${active === 1 ? 
           'bg-indigo-100 pointer-events-none': "hover:bg-indigo-50"} relative
           min-w-[80px] sm:min-w-[180px] w-full rounded-l-lg text-center transition-all
           flex items-center justify-center lg:text-lg`}
@@ -29,7 +29,7 @@ export const TabNavigation = ({ active, setActive }: TabNavigationProps) => {
         <Badge value={todoCount} />
       </div>
       <div
-        className={`px-4 py-2 lg:py-3 cursor-pointer ${active === 2 ?
+        className={`px-4 h-10 lg:h-12 cursor-pointer ${active === 2 ?
           'bg-indigo-100 pointer-events-none' : "hover:bg-indigo-50"} relative
           min-w-[80px] sm:min-w-[180px] w-full text-center transition-all
           flex items-center justify-center lg:text-lg`}
@@ -39,7 +39,7 @@ export const TabNavigation = ({ active, setActive }: TabNavigationProps) => {
         <Badge value={doneCount} />
       </div>
       <div
-        className={`px-4 py-2 lg:py-3 cursor-pointer ${active === 3 ?
+        className={`px-4 h-10 lg:h-12 cursor-pointer ${active === 3 ?
           'bg-indigo-100 pointer-events-none' : "hover:bg-indigo-50"} relative
           min-w-[80px] sm:min-w-[180px] w-full rounded-r-lg text-center transition-all
           flex items-center justify-center lg:text-lg`}

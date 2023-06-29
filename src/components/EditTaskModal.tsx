@@ -36,7 +36,8 @@ type FormData = yup.InferType<typeof schema>;
 export const EditTaskModal = ({ task, close }: EditTaskModalProps) => {
   const { updateTodo } = useTodos();
 
-  if (typeof task.deadline === "string") task.deadline = new Date(task.deadline);
+  if (typeof task.deadline === "string")
+    task.deadline = new Date(task.deadline);
 
   const date = task.deadline.toISOString().substring(0, 10);
 
@@ -123,12 +124,18 @@ export const EditTaskModal = ({ task, close }: EditTaskModalProps) => {
                 className="rounded border px-3 py-2 focus:outline-1 text-gray-500 resize-none"
                 {...register("description")}
               />
-              <div className="h-1 flex justify-between">
-                <p className="text-xs text-gray-500 text-right">
-                  {watchDescription ? watchDescription.length : 0} / {maxLength}
-                </p>
+              <div className="h-1 flex gap-3 justify-end">
                 <p className="text-xs text-pink-500 text-right">
                   {errors.description?.message}
+                </p>
+                <p
+                  className={`text-xs text-gray-500 text-right ${
+                    watchDescription && watchDescription.length > maxLength
+                      ? "text-pink-500"
+                      : ""
+                  }`}
+                >
+                  {watchDescription ? watchDescription.length : 0} / {maxLength}
                 </p>
               </div>
             </div>
@@ -158,6 +165,7 @@ export const EditTaskModal = ({ task, close }: EditTaskModalProps) => {
               <input
                 id="deadline"
                 type="date"
+                max="9999-12-31"
                 className="h-12 rounded border px-3 focus:outline-1 text-gray-500"
                 {...register("deadline", { valueAsDate: true })}
                 defaultValue={date}
