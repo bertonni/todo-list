@@ -42,14 +42,11 @@ function App() {
       <div className="px-6 sm:px-10 lg:px-14 flex flex-col gap-2 flex-1 overflow-auto">
         {activeItem === 1 ? <TodosScreen /> : <OptionsScreen />}
         <button
-          className="rounded-xl flex items-center gap-2 text-lg z-30
-            bg-indigo-500 text-white py-4 pl-6 pr-4 w-max fixed
-            right-6 bottom-6 sm:bottom-10 shadow-lg hover:brightness-105
-            shadow-indigo-300 font-medium"
+          className="fab"
           onClick={() => setShowAddTaskModal(true)}
         >
-          Criar Tarefa
           <Plus size={24} />
+          <span className="hidden md:flex">Criar Tarefa</span>
         </button>
       </div>
       <AnimatePresence mode="wait">

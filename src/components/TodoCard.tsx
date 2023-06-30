@@ -9,6 +9,7 @@ interface TodoCardProps {
   todo: Todo;
   variant: Variants;
   showEditTask: boolean;
+  changeStatus: () => void;
   showConfirmBox: (value: boolean) => void;
   showEditModal: (value: boolean, task: Todo) => void;
   setTaskId: (id: string) => void;
@@ -49,6 +50,7 @@ export const TodoCard = ({
   todo,
   variant,
   showConfirmBox,
+  changeStatus,
   showEditModal,
   showEditTask,
   setTaskId,
@@ -99,7 +101,7 @@ export const TodoCard = ({
   return (
     <motion.div
       variants={variant}
-      className="flex flex-col text-gray-700 rounded-xl shadow-md
+      className="flex flex-col text-gray-700 rounded-xl shadow
         pt-3 w-full bg-white relative overflow-hidden min-h-[12rem]"
       onClick={() => setShowOptions(false)}
     >
@@ -115,6 +117,7 @@ export const TodoCard = ({
               showEditModal={showEditModal}
               action={setTaskId}
               status={todo.status}
+              changeStatus={changeStatus}
             />
           ) : null}
         </AnimatePresence>

@@ -9,10 +9,12 @@ import {
 } from "react-feather";
 import { useTodos } from "../contexts/TodosContext";
 import { Todo } from "../@types/types";
+import { Button } from "./Button";
 
 interface MoreOptionsProps {
   id: string;
   close: () => void;
+  changeStatus: () => void;
   showConfirmBox: (value: boolean) => void;
   showEditModal: (value: boolean, task: Todo) => void;
   action: (id: string) => void;
@@ -28,6 +30,7 @@ export const MoreOptions = ({
   id,
   status,
   close,
+  changeStatus,
   showConfirmBox,
   showEditModal,
   action,
@@ -42,15 +45,18 @@ export const MoreOptions = ({
   const handleEdit = () => {
     const currentTask = todos.filter((todo) => todo.id === id)[0];
     showEditModal(true, currentTask);
-  }
+  };
 
   const handleFinish = () => {
     changeTodoStatus(id, "Done");
+    changeStatus();
   };
 
-  const handleCancel = () => {
-    if (status === "Canceled" || status === "Done") changeTodoStatus(id, "To do");
+  const handleCancel = (action: "Done" | "To do" | "Canceled") => {
+    if (status === "Canceled" || status === "Done")
+      changeTodoStatus(id, action);
     else cancelTodo(id);
+    changeStatus();
   };
 
   return (
@@ -64,49 +70,61 @@ export const MoreOptions = ({
       onClick={(e) => e.stopPropagation()}
     >
       <div className="h-full p-2 flex flex-col justify-evenly">
-        <button
-          title="Fechar"
-          className="p-2 hover:bg-white rounded-full"
-          onClick={close}
-        >
+        <Button title="Fechar" onClick={close}>
           <X size={20} />
-        </button>
-        <button
+        </Button>
+        <Button
+          iconColor="hover:text-sky-500"
           title="Editar"
-          className="p-2 hover:bg-white rounded-full hover:text-sky-500
-          transition-all"
           onClick={handleEdit}
         >
           <Edit2 size={20} />
-        </button>
-        <button
+        </Button>
+        <Button
+          iconColor="hover:text-red-500"
           title="Remover"
-          className="p-2 hover:bg-white rounded-full hover:text-red-500
-          transition-all"
           onClick={handleRemove}
         >
           <Trash2 size={20} />
-        </button>
-        <button
-          title={status === "Canceled" || status === "Done" ? "Reativar" : "Cancelar"}
-          className="p-2 hover:bg-white rounded-full hover:text-pink-500
-          transition-all"
-          onClick={handleCancel}
-        >
-          {status === "Canceled" || status === "Done" ? (
+        </Button>
+        {status === "Canceled" || status === "Done" ? (
+          <Button
+            iconColor="hover:text-pink-500"
+            title={
+              status === "Canceled" || status === "Done"
+                ? "Reativar"
+                : "Cancelar"
+            }
+            onClick={() => handleCancel("To do")}
+          >
             <CornerUpLeft size={20} />
-          ) : (
+          </Button>
+        ) : (
+          <Button
+            iconColor="hover:text-pink-500"
+            title="Cancelar"
+            onClick={() => handleCancel("Canceled")}
+          >
             <XCircle size={20} />
-          )}
-        </button>
-        <button
-          title="Concluir"
-          className="p-2 hover:bg-white rounded-full hover:text-emerald-500
-          transition-all"
-          onClick={handleFinish}
-        >
-          <CheckCircle size={20} />
-        </button>
+          </Button>
+        )}
+        {status === "Done" ? (
+          <Button
+            iconColor="hover:text-pink-500"
+            title="Cancelar"
+            onClick={() => handleCancel("Canceled")}
+          >
+            <XCircle size={20} />
+          </Button>
+        ) : (
+          <Button
+            title="Concluir"
+            onClick={handleFinish}
+            iconColor="hover:text-emerald-500"
+          >
+            <CheckCircle size={20} />
+          </Button>
+        )}
       </div>
     </motion.div>
   );

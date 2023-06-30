@@ -4,10 +4,26 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-slate-100 font-anuphan;
-}
-
-::-webkit-scrollbar {
-  width: 0;
+@layer components {
+  body {
+    @apply bg-slate-100 font-anuphan;
+  }
+  
+  .tab-button {
+    @apply px-4 h-10 lg:h-12 cursor-pointer relative min-w-[80px]
+    sm:min-w-[180px] w-full text-center transition-all
+    flex items-center justify-center lg:text-lg
+  }
+  
+  .fab {
+    @apply rounded-2xl flex items-center gap-2 text-lg z-30
+    bg-indigo-500 text-white h-14 md:pl-4 md:pr-6 w-max fixed
+    lg:right-6 lg:bottom-6 shadow hover:brightness-105
+    shadow-indigo-300 font-medium right-4 bottom-4 md:min-w-[80px]
+    justify-center md:justify-start px-6 transition-all
+  }
+  
+  ::-webkit-scrollbar {
+    width: 0;
+  }
 }

@@ -65,8 +65,8 @@ export const ConfirmBox = ({
         {/* buttons */}
         <div className="flex items-center gap-2 justify-end">
           <button
-            className="rounded-full px-6 font-medium text-indigo-500
-              hover:bg-indigo-50 transition-all h-10"
+            className="rounded-full px-6 font-medium text-gray-500
+              hover:bg-gray-50 transition-all h-10"
             onClick={() => handleClick(false)}
           >
             {text[0]}
