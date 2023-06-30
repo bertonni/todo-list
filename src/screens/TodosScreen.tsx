@@ -44,6 +44,7 @@ export const TodosScreen = () => {
   const [showEditTaskModal, setShowEditTaskModal] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Todo | null>(null);
+  const [statusHasChanged, setStatusHasChanged] = useState(0);
 
   useEffect(() => {
     if (confirmDelete) {
@@ -72,7 +73,7 @@ export const TodosScreen = () => {
     } else {
       setTodoMessage("");
     }
-  }, [currentTab, todos]);
+  }, [currentTab, todos, statusHasChanged]);
 
   const handleShowEditModal = (value: boolean, task: Todo) => {
     setShowEditTaskModal(value);
@@ -83,6 +84,7 @@ export const TodosScreen = () => {
     setSelectedTask(null);
     setShowEditTaskModal(false);
   };
+
 
   return (
     <div className="rounded text-gray-700">
@@ -124,6 +126,7 @@ export const TodosScreen = () => {
                 showEditModal={handleShowEditModal}
                 showEditTask={showEditTaskModal}
                 setTaskId={setTaskId}
+                changeStatus={() => setStatusHasChanged(statusHasChanged + 1)}
               />
             ))}
         </motion.div>

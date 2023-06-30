@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'anuphan': ['Anuphan']
+        'anuphan': ['Anuphan'],
       }
     },
   },

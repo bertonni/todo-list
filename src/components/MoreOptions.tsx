@@ -14,6 +14,7 @@ import { Button } from "./Button";
 interface MoreOptionsProps {
   id: string;
   close: () => void;
+  changeStatus: () => void;
   showConfirmBox: (value: boolean) => void;
   showEditModal: (value: boolean, task: Todo) => void;
   action: (id: string) => void;
@@ -29,6 +30,7 @@ export const MoreOptions = ({
   id,
   status,
   close,
+  changeStatus,
   showConfirmBox,
   showEditModal,
   action,
@@ -47,12 +49,14 @@ export const MoreOptions = ({
 
   const handleFinish = () => {
     changeTodoStatus(id, "Done");
+    changeStatus();
   };
 
   const handleCancel = (action: "Done" | "To do" | "Canceled") => {
     if (status === "Canceled" || status === "Done")
       changeTodoStatus(id, action);
     else cancelTodo(id);
+    changeStatus();
   };
 
   return (
